@@ -1,3 +1,5 @@
+using Marketplace.Endpoints;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,5 +17,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStatusCodePages();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.ConfigureProductEndpoints();
+
+app.MapControllers();
 
 app.Run();
