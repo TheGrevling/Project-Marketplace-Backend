@@ -33,5 +33,11 @@ namespace Marketplace.Repository
         {
             throw new NotImplementedException();
         }
+
+        public Task<T> Delete(object id)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
