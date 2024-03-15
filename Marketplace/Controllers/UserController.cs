@@ -19,5 +19,44 @@ namespace Marketplace.Controllers
             _context = context;
             _tokenService = tokenService;
         }
+
+        [HttpPost]
+        [Route("register")]
+        public async Task<IActionResult> Register(RegistrationRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var User = new ApplicationUser { UserName = request.Username, Email = request.Email, Role = request.Role };
+
+            var result = await _userManager.CreateAsync(
+                User,
+                request.Password!
+            );
+
+            if (result.Succeeded)
+            {
+                request.Password = "";
+                var accessToken = _tokenService.CreateToken(User);
+
+                // Include the access token in the response
+                var response = new
+                {
+                    Email = request.Email,
+                    Role = request.Role,
+                    AccessToken = accessToken
+                };
+
+                return CreatedAtAction(nameof(Register), response);
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(error.Code, error.Description);
+            }
+
+            return BadRequest(ModelState);
+        }
     }
 }
