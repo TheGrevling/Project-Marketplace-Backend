@@ -1,13 +1,12 @@
-﻿namespace Marketplace.DataTransfers.Requests
-{
-    public class AuthRequest
-    {
-        public string? Email { get; set; }
-        public string? Password { get; set; }
+﻿namespace Marketplace.DataTransfers.Requests;
 
-        public bool IsValid()
-        {
-            return true;
-        }
+public class AuthRequest
+{
+    public string? Email { get; set; }
+    public string? Password { get; set; }
+
+    public bool IsValid()
+    {
+        return true;
     }
 }
