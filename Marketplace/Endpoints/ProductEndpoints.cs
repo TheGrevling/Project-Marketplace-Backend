@@ -11,8 +11,8 @@ namespace Marketplace.Endpoints
         public static void ConfigureProductEndpoints(this WebApplication app)
         {
             var products = app.MapGroup("products");
-            products.MapGet("/products", Get);
-            products.MapPost("/products{id}", Post).AddEndpointFilter(async (invocationContext, next) =>
+            products.MapGet("/", Get);
+            products.MapPost("/{id}", Post).AddEndpointFilter(async (invocationContext, next) =>
             {
                 var product = invocationContext.GetArgument<ProductPost>(1);
 
@@ -22,8 +22,8 @@ namespace Marketplace.Endpoints
                 }
                 return await next(invocationContext);
             });
-            products.MapPut("/products{id}", Update);
-            products.MapDelete("/products{id}", Delete);
+            products.MapPut("/{id}", Update);
+            products.MapDelete("/{id}", Delete);
         }
 
         private static async Task<IResult> Get(IRepository<Product> repository)
