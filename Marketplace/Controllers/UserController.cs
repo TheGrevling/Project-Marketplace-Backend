@@ -45,6 +45,7 @@ namespace Marketplace.Controllers
                 // Include the access token in the response
                 var response = new
                 {
+                    Id = User.Id,
                     Email = request.Email,
                     Role = request.Role,
                     AccessToken = accessToken
@@ -95,6 +96,7 @@ namespace Marketplace.Controllers
 
             return Ok(new AuthResponse
             {
+                Id = userInDb.Id,
                 Username = userInDb.UserName,
                 Email = userInDb.Email,
                 Token = accessToken,
