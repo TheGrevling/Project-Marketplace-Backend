@@ -482,3 +482,4 @@ $RECYCLE.BIN/
 */**/obj/Debug   
 */**/obj/Release 
 /Marketplace/appsettings.json
+/Marketplace/appsettings.Development.json
