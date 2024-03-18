@@ -14,29 +14,36 @@ namespace Marketplace.Repository
             _table = _db.Set<T>();
         }
 
-        public Task<IEnumerable<T>> Get()
+        public async Task<IEnumerable<T>> Get()
         {
-            throw new NotImplementedException();
+            return await _table.ToListAsync();
         }
 
-        public Task<T> GetById(object id)
+        public async Task<T> GetById(object id)
         {
-            throw new NotImplementedException();
+            return await _table.FindAsync(id);
         }
 
-        public Task<T> Insert(T entity)
+        public async Task<T> Insert(T entity)
         {
-            throw new NotImplementedException();
+            _table.Add(entity);
+            await _db.SaveChangesAsync();
+            return entity;
         }
 
-        public Task<T> Update(T entity)
+        public async Task<T> Update(T entity)
         {
-            throw new NotImplementedException();
+            _table.Update(entity).State = EntityState.Modified;
+            await _db.SaveChangesAsync();
+            return entity;
         }
 
-        public Task<T> Delete(object id)
+        public async Task<T> Delete(object id)
         {
-            throw new NotImplementedException();
+            T entity = await _table.FindAsync(id);
+            _table.Update(entity).State = EntityState.Deleted;
+            await _db.SaveChangesAsync();
+            return entity;
         }
 
     }

@@ -12,6 +12,7 @@ using Marketplace.Data;
 using Marketplace.DataModels;
 using Marketplace.Repository;
 using Marketplace.Services;
+using Marketplace.Endpoints;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,6 +59,7 @@ builder.Services.AddDbContext<DataContext>(opt =>
 
 });
 builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
+builder.Services.AddScoped<IRepository<Review>, Repository<Review>>();
 builder.Services.AddScoped<TokenService, TokenService>();
 
 // Support string to enum conversions
@@ -126,10 +128,14 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStatusCodePages();
 
+// Auth
 app.UseAuthentication();
 app.UseAuthorization();
 
-//app.ConfigureBlogPostsEndpoint();
+// Endpoints
+app.ConfigureProductEndpoints();
+app.ConfigureReviewEndpoints();
 
+// Controllers
 app.MapControllers();
 app.Run();
