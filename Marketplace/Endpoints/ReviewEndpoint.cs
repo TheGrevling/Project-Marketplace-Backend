@@ -23,8 +23,8 @@ namespace Marketplace.Endpoints
                 }
                 return await next(invocationContext);
             });
-            products.MapPut("/{id}", Update);
-            products.MapDelete("/{id}", Delete);
+            reviews.MapPut("/{id}", Update);
+            reviews.MapDelete("/{id}", Delete);
         }
 
         private static async Task<IResult> Get(IRepository<Review> repository)
@@ -43,7 +43,7 @@ namespace Marketplace.Endpoints
             var review = await repository.GetById(id);
             if (review == null)
             {
-                return Results.BadRequest("Can't find product with that id");
+                return Results.BadRequest("Can't find review with that id");
             }
             return TypedResults.Ok(review);
         }
