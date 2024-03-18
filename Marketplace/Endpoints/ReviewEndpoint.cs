@@ -10,9 +10,10 @@ namespace Marketplace.Endpoints
     {
         public static void ConfigureReviewEndpoints(this WebApplication app)
         {
-            var products = app.MapGroup("reviews");
-            products.MapGet("/", Get);
-            products.MapPost("/{id}", Post).AddEndpointFilter(async (invocationContext, next) =>
+            var reviews = app.MapGroup("reviews");
+            reviews.MapGet("/", Get);
+            reviews.MapGet("/{id}", GetById);
+            reviews.MapPost("/{id}", Post).AddEndpointFilter(async (invocationContext, next) =>
             {
                 var review = invocationContext.GetArgument<ReviewPost>(1);
 
@@ -35,6 +36,16 @@ namespace Marketplace.Endpoints
                 results.Add(review);
             }
             return TypedResults.Ok(results);
+        }
+
+        private static async Task<IResult> GetById(IRepository<Review> repository, int id)
+        {
+            var review = await repository.GetById(id);
+            if (review == null)
+            {
+                return Results.BadRequest("Can't find product with that id");
+            }
+            return TypedResults.Ok(review);
         }
 
         private static async Task<IResult> Post(IRepository<Review> repository, int userId, int productId, ReviewPost review, ClaimsPrincipal user)

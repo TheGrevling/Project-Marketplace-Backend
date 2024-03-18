@@ -12,6 +12,7 @@ namespace Marketplace.Endpoints
         {
             var products = app.MapGroup("products");
             products.MapGet("/", Get);
+            products.MapGet("/{id}", GetById);
             products.MapPost("/{id}", Post).AddEndpointFilter(async (invocationContext, next) =>
             {
                 var product = invocationContext.GetArgument<ProductPost>(1);
@@ -35,6 +36,16 @@ namespace Marketplace.Endpoints
                 results.Add(product);
             }
             return TypedResults.Ok(results);
+        }
+
+        private static async Task<IResult> GetById(IRepository<Product> repository, int id)
+        {
+            var product = await repository.GetById(id);
+            if (product == null)
+            {
+                return Results.BadRequest("Can't find product with that id");
+            }
+            return TypedResults.Ok(product);
         }
 
         private static async Task<IResult> Post(IRepository<Product> repository, ProductPost product, ClaimsPrincipal user)
