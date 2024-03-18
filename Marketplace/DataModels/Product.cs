@@ -16,11 +16,11 @@ namespace Marketplace.DataModels
         [Column("price")]
         public double Price { get; set; }
         [Column("category")]
-        public Category category { get; set; }
+        public Category Category { get; set; }
         [Column("description")]
         public string Description { get; set; }
         [Column("ImageURL")]
         public string ImageURL { get; set; }
-
+        public List<Review> reviewsList { get; set; }
     }
 }
