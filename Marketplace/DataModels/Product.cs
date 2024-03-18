@@ -19,5 +19,7 @@ namespace Marketplace.DataModels
         public Category Category { get; set; }
         [Column("description")]
         public string Description { get; set; }
+
+        public List<Review> reviewsList { get; set; }
     }
 }
