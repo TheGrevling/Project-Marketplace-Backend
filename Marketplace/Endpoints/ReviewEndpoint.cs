@@ -12,7 +12,7 @@ namespace Marketplace.Endpoints
         {
             var reviews = app.MapGroup("reviews");
             reviews.MapGet("/products/reviews", Get);
-            reviews.MapGet("/products/reviews{id}", GetById);
+            reviews.MapGet("/products/reviews/{id}", GetById);
             reviews.MapPost("/products/reviews/{id}", Post).AddEndpointFilter(async (invocationContext, next) =>
             {
                 var review = invocationContext.GetArgument<ReviewPost>(1);
@@ -38,7 +38,7 @@ namespace Marketplace.Endpoints
             return TypedResults.Ok(results);
         }
 
-        private static async Task<IResult> GetById(IRepository<Product> repository, int id)
+        private static async Task<IResult> GetById(IRepository<Review> repository, int id)
         {
             var review = await repository.GetById(id);
             if (review == null)
