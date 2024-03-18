@@ -59,6 +59,7 @@ builder.Services.AddDbContext<DataContext>(opt =>
 
 });
 builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
+builder.Services.AddScoped<IRepository<Review>, Repository<Review>>();
 builder.Services.AddScoped<TokenService, TokenService>();
 
 // Support string to enum conversions

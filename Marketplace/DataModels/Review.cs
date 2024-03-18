@@ -6,12 +6,12 @@ namespace Marketplace.DataModels
     {
         [Column("id")]
         public int Id { get; set; }
-        [ForeignKey(nameof(Product)), Column("fk_product_id")]
+        [ForeignKey(nameof(Product.Id)), Column("fk_product_id")]
         public int ProductId { get; set; }
         public Product Product { get; set; }
-        //[ForeignKey(nameof(User)), Column("user")]
+        [ForeignKey(nameof(ApplicationUser.Id)), Column("user_id")]
         public int UserId { get; set; }
-        //public User user { get; set; } - do we use ApplicationUser or make a new class?
+        public ApplicationUser ApplicationUser { get; set; }
         [Column("rating")]
         public int Rating { get; set; }
         [Column("title")]

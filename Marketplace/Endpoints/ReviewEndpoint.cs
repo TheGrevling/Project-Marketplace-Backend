@@ -23,7 +23,7 @@ namespace Marketplace.Endpoints
                 return await next(invocationContext);
             });
             products.MapPut("/products/reviews/{id}", Update);
-            products.MapDelete("/products/reviews/{id", Delete);
+            products.MapDelete("/products/reviews/{id}", Delete);
         }
 
         private static async Task<IResult> Get(IRepository<Review> repository)

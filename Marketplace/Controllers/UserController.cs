@@ -47,6 +47,7 @@ namespace Marketplace.Controllers
                 {
                     Id = User.Id,
                     Email = request.Email,
+                    Username = request.Username,
                     Role = request.Role,
                     AccessToken = accessToken
                 };
