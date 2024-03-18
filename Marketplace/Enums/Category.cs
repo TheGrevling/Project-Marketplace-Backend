@@ -3,6 +3,8 @@
     public enum Category
     {
         Boardgame,
-        Cardgame
+        Cardgame,
+        Roleplay,
+        Puzzlegame
     }
 }

@@ -19,5 +19,8 @@ namespace Marketplace.DataModels
         public Category category { get; set; }
         [Column("description")]
         public string Description { get; set; }
+        [Column("ImageURL")]
+        public string ImageURL { get; set; }
+
     }
 }
