@@ -11,9 +11,9 @@ namespace Marketplace.Endpoints
         public static void ConfigureReviewEndpoints(this WebApplication app)
         {
             var reviews = app.MapGroup("reviews");
-            reviews.MapGet("/products/reviews", Get);
-            reviews.MapGet("/products/reviews/{id}", GetById);
-            reviews.MapPost("/products/reviews/{id}", Post).AddEndpointFilter(async (invocationContext, next) =>
+            reviews.MapGet("/", Get);
+            reviews.MapGet("/{id}", GetById);
+            reviews.MapPost("/{id}", Post).AddEndpointFilter(async (invocationContext, next) =>
             {
                 var review = invocationContext.GetArgument<ReviewPost>(1);
 
@@ -23,8 +23,8 @@ namespace Marketplace.Endpoints
                 }
                 return await next(invocationContext);
             });
-            reviews.MapPut("/products/reviews/{id}", Update);
-            reviews.MapDelete("/products/reviews/{id}", Delete);
+            products.MapPut("/{id}", Update);
+            products.MapDelete("/{id}", Delete);
         }
 
         private static async Task<IResult> Get(IRepository<Review> repository)
