@@ -21,6 +21,6 @@ namespace Marketplace.DataModels
         public string Description { get; set; }
         [Column("ImageURL")]
         public string ImageURL { get; set; }
-
+        public List<Review> reviewsList { get; set; }
     }
 }
