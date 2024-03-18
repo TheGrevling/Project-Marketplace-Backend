@@ -1,5 +1,5 @@
 # Project-Marketplace-Backend
-the backend repository of Group 2.
+the backend repository of Group 4.
 
 
 Frontend: https://github.com/TheGrevling/Project-Marketplace-Frontend
@@ -43,4 +43,5 @@ Install-Package Microsoft.AspNetCore.OpenApi
 Install-Package Microsoft.EntityFrameworkCore
 Install-Package Microsoft.EntityFrameworkCore.Design
 Install-Package Microsoft.EntityFrameworkCore.Tools
-Install-Package Npgsql.EntityFrameworkCore.PostgreSQL```
+Install-Package Npgsql.EntityFrameworkCore.PostgreSQL
+```
