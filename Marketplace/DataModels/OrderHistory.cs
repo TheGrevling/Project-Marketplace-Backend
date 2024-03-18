@@ -15,9 +15,9 @@ namespace Marketplace.DataModels
         public string ShippingPostCode { get; set; }
         [Column("total_sum")]
         public double TotalSum { get; set; }
-        //[ForeignKey(nameof(User)), Column("fk_user_id")]
+        [ForeignKey(nameof(ApplicationUser)), Column("fk_user_id")]
         public int UserId { get; set; }
-        //public User User { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
         [ForeignKey(nameof(Order)), Column("fk_order_id")]
         public int OrderId { get; set; }
         public Order Order { get; set; }
