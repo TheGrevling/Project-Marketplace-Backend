@@ -23,8 +23,8 @@ namespace Marketplace.Endpoints
                 }
                 return await next(invocationContext);
             });
-            products.MapPut("/{id}", Update);
-            products.MapDelete("/{id}", Delete);
+            reviews.MapPut("/{id}", Update);
+            reviews.MapDelete("/{id}", Delete);
         }
 
         private static async Task<IResult> Get(IRepository<Review> repository)
@@ -48,7 +48,7 @@ namespace Marketplace.Endpoints
             return TypedResults.Ok(review);
         }
 
-        private static async Task<IResult> Post(IRepository<Review> repository, int userId, int productId, ReviewPost review, ClaimsPrincipal user)
+        private static async Task<IResult> Post(IRepository<Review> repository, string userId, int productId, ReviewPost review, ClaimsPrincipal user)
         {
             var reviews = await repository.Get();
 

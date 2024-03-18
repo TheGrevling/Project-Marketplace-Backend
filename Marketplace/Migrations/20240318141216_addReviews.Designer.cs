@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Marketplace.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240318125235_usersMigration")]
-    partial class usersMigration
+    [Migration("20240318141216_addReviews")]
+    partial class addReviews
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -140,9 +140,9 @@ namespace Marketplace.Migrations
                             Category = 0,
                             Description = "Description of boardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg",
-                            Name = "Adventure Quest",
-                            Price = 665.0,
-                            Producer = "Galactic Studios"
+                            Name = "Ancient Magic",
+                            Price = 409.0,
+                            Producer = "Mystic Creations"
                         },
                         new
                         {
@@ -151,8 +151,8 @@ namespace Marketplace.Migrations
                             Description = "Description of boardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg",
                             Name = "Kingdoms Battles",
-                            Price = 991.0,
-                            Producer = "Empire Studios"
+                            Price = 966.0,
+                            Producer = "Adventure Studios"
                         },
                         new
                         {
@@ -160,9 +160,9 @@ namespace Marketplace.Migrations
                             Category = 0,
                             Description = "Description of boardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg",
-                            Name = "Mystic Battles",
-                            Price = 128.0,
-                            Producer = "Empire Games"
+                            Name = "Ancient Manor",
+                            Price = 655.0,
+                            Producer = "Galactic Co."
                         },
                         new
                         {
@@ -170,9 +170,9 @@ namespace Marketplace.Migrations
                             Category = 0,
                             Description = "Description of boardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg",
-                            Name = "Adventure Chronicles",
-                            Price = 605.0,
-                            Producer = "Galactic Entertainment"
+                            Name = "Adventure Magic",
+                            Price = 703.0,
+                            Producer = "Mystic Entertainment"
                         },
                         new
                         {
@@ -180,9 +180,9 @@ namespace Marketplace.Migrations
                             Category = 0,
                             Description = "Description of boardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg",
-                            Name = "Epic Magic",
-                            Price = 927.0,
-                            Producer = "Mystic Creations"
+                            Name = "Mystic Manor",
+                            Price = 537.0,
+                            Producer = "Empire Games"
                         },
                         new
                         {
@@ -190,9 +190,9 @@ namespace Marketplace.Migrations
                             Category = 1,
                             Description = "Description of cardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg",
-                            Name = "Adventure Quest",
-                            Price = 975.0,
-                            Producer = "Mystic Co."
+                            Name = "Adventure Magic",
+                            Price = 405.0,
+                            Producer = "Empire Entertainment"
                         },
                         new
                         {
@@ -200,9 +200,9 @@ namespace Marketplace.Migrations
                             Category = 1,
                             Description = "Description of cardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg",
-                            Name = "Galactic Chronicles",
-                            Price = 436.0,
-                            Producer = "Mystic Productions"
+                            Name = "Kingdoms Battles",
+                            Price = 928.0,
+                            Producer = "Empire Entertainment"
                         },
                         new
                         {
@@ -210,9 +210,9 @@ namespace Marketplace.Migrations
                             Category = 1,
                             Description = "Description of cardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg",
-                            Name = "Epic Conquest",
-                            Price = 560.0,
-                            Producer = "Legendary Games"
+                            Name = "Mystic Quest",
+                            Price = 559.0,
+                            Producer = "Mythical Creations"
                         },
                         new
                         {
@@ -220,9 +220,9 @@ namespace Marketplace.Migrations
                             Category = 1,
                             Description = "Description of cardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg",
-                            Name = "Mystic Battles",
-                            Price = 564.0,
-                            Producer = "Galactic Creations"
+                            Name = "Galactic Magic",
+                            Price = 956.0,
+                            Producer = "Mystic Co."
                         },
                         new
                         {
@@ -230,9 +230,9 @@ namespace Marketplace.Migrations
                             Category = 1,
                             Description = "Description of cardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg",
-                            Name = "Galactic Quest",
-                            Price = 593.0,
-                            Producer = "Empire Co."
+                            Name = "Ancient Quest",
+                            Price = 741.0,
+                            Producer = "Legendary Studios"
                         },
                         new
                         {
@@ -241,8 +241,8 @@ namespace Marketplace.Migrations
                             Description = "Description of roleplay",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg",
                             Name = "Galactic Conquest",
-                            Price = 464.0,
-                            Producer = "Adventure Entertainment"
+                            Price = 198.0,
+                            Producer = "Adventure Games"
                         },
                         new
                         {
@@ -250,9 +250,9 @@ namespace Marketplace.Migrations
                             Category = 2,
                             Description = "Description of roleplay",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg",
-                            Name = "Epic Conquest",
-                            Price = 535.0,
-                            Producer = "Empire Productions"
+                            Name = "Mystic Conquest",
+                            Price = 169.0,
+                            Producer = "Empire Creations"
                         },
                         new
                         {
@@ -260,9 +260,9 @@ namespace Marketplace.Migrations
                             Category = 2,
                             Description = "Description of roleplay",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg",
-                            Name = "Ancient Manor",
-                            Price = 517.0,
-                            Producer = "Galactic Co."
+                            Name = "Adventure Chronicles",
+                            Price = 712.0,
+                            Producer = "Galactic Productions"
                         },
                         new
                         {
@@ -270,8 +270,8 @@ namespace Marketplace.Migrations
                             Category = 2,
                             Description = "Description of roleplay",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg",
-                            Name = "Epic Chronicles",
-                            Price = 553.0,
+                            Name = "Adventure Manor",
+                            Price = 193.0,
                             Producer = "Galactic Co."
                         },
                         new
@@ -280,9 +280,9 @@ namespace Marketplace.Migrations
                             Category = 2,
                             Description = "Description of roleplay",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg",
-                            Name = "Mystic Quest",
-                            Price = 895.0,
-                            Producer = "Adventure Productions"
+                            Name = "Adventure Battles",
+                            Price = 198.0,
+                            Producer = "Mystic Productions"
                         },
                         new
                         {
@@ -290,9 +290,9 @@ namespace Marketplace.Migrations
                             Category = 3,
                             Description = "Description of puzzlegame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg",
-                            Name = "Adventure Battles",
-                            Price = 202.0,
-                            Producer = "Legendary Studios"
+                            Name = "Galactic Chronicles",
+                            Price = 721.0,
+                            Producer = "Mystic Entertainment"
                         },
                         new
                         {
@@ -300,9 +300,9 @@ namespace Marketplace.Migrations
                             Category = 3,
                             Description = "Description of puzzlegame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg",
-                            Name = "Epic Conquest",
-                            Price = 419.0,
-                            Producer = "Mystic Creations"
+                            Name = "Galactic Manor",
+                            Price = 568.0,
+                            Producer = "Mystic Productions"
                         },
                         new
                         {
@@ -310,9 +310,9 @@ namespace Marketplace.Migrations
                             Category = 3,
                             Description = "Description of puzzlegame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg",
-                            Name = "Mystic Chronicles",
-                            Price = 674.0,
-                            Producer = "Mystic Studios"
+                            Name = "Ancient Manor",
+                            Price = 372.0,
+                            Producer = "Mythical Co."
                         },
                         new
                         {
@@ -320,9 +320,9 @@ namespace Marketplace.Migrations
                             Category = 3,
                             Description = "Description of puzzlegame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg",
-                            Name = "Ancient Battles",
-                            Price = 288.0,
-                            Producer = "Mystic Creations"
+                            Name = "Adventure Battles",
+                            Price = 267.0,
+                            Producer = "Galactic Entertainment"
                         },
                         new
                         {
@@ -330,9 +330,9 @@ namespace Marketplace.Migrations
                             Category = 3,
                             Description = "Description of puzzlegame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg",
-                            Name = "Mystic Manor",
-                            Price = 664.0,
-                            Producer = "Empire Entertainment"
+                            Name = "Galactic Chronicles",
+                            Price = 586.0,
+                            Producer = "Legendary Entertainment"
                         });
                 });
 
@@ -366,8 +366,9 @@ namespace Marketplace.Migrations
                         .HasColumnType("text")
                         .HasColumnName("title");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer")
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
