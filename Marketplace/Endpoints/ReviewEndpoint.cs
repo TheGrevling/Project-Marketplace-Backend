@@ -59,7 +59,7 @@ namespace Marketplace.Endpoints
                 Content = review.Content,
             };
             await repository.Insert(entity);
-            return TypedResults.Created($"product posted: {entity.Title}", entity);
+            return TypedResults.Created($"Review posted: {entity.Title}", entity);
         }
 
         private static async Task<IResult> Update(IRepository<Review> repository, int id, ReviewPut review, ClaimsPrincipal user)
