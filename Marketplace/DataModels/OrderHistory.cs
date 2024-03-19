@@ -3,6 +3,7 @@ using System.Numerics;
 
 namespace Marketplace.DataModels
 {
+    [Table("OrderHistory")]
     public class OrderHistory
     {
         [Column("id")]

@@ -2,6 +2,7 @@
 
 namespace Marketplace.DataModels
 {
+    [Table("OrderItem")]
     public class OrderItem
     {
         [Column("id")]
