@@ -66,6 +66,10 @@ namespace Marketplace.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<OrderHistory>().Navigation(x => x.Items).AutoInclude();
+            modelBuilder.Entity<OrderItem>().Navigation(x=>x.Product).AutoInclude();
+            modelBuilder.Entity<Wishlist>().Navigation(x => x.wishlistItems).AutoInclude();
+            modelBuilder.Entity<WishlistItem>().Navigation(x => x.Product).AutoInclude();
 
             SeedProducts(modelBuilder);
         }
