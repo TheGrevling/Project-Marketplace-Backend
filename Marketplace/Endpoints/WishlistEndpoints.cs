@@ -21,46 +21,34 @@ namespace Marketplace.Endpoints
         private static async Task<IResult> Get(IRepository<Wishlist> repository)
         {
             var wishlists = await repository.Get();
-            List<Wishlist> results = new List<Wishlist>();
-            foreach (var wishlist in wishlists)
+            List<WishlistDTO> results = new List<WishlistDTO>();
+            foreach (var wish in wishlists)
             {
-                results.Add(product);
+                results.Add(createWishlistDTO(wish));
             }
             return TypedResults.Ok(results);
-            var wishlists = from wishlist in await repository.Get()
-                            select new WishlistDTO()
-                            {
-                                Id = wishlist.Id,
-                                WishlistItems = wishlist.WishlistItems.Select(x => new WishlistItemDTO()
-                                { 
-                                    Id = x.Id,
-                                    Product = new ProductDTO()
-                                    {
-                                        Name = x.Product.Name,
-                                        Producer = x.Product.Producer,
-                                        Category = x.Product.Category,
-                                        Price = x.Product.Price,
-                                        Description = x.Product.Description,
-                                        ImageURL = x.Product.ImageURL,
-                                    }
-                                })
-                            };
-            return TypedResults.Ok(wishlists);
         }
 
-        private static async Task<IResult> GetById(IRepository<Wishlist> repository, int id)
+        private static async Task<IResult> GetById(IRepository<Wishlist> repository, string userId)
         {
-            var wishlist = await repository.GetById(id);
-            if (wishlist == null)
+            var wishlist = await repository.Get();
+            if (!wishlist.Any(x => x.UserId == userId))
             {
-                return Results.BadRequest("Can't find wishlist with that id");
+                return Results.BadRequest("Can't find wishlist matching that user id");
             }
-            return TypedResults.Ok(wishlist);
+            Wishlist result = wishlist.First(x => x.UserId == userId);
+            WishlistDTO resultDTO = createWishlistDTO(result);
+            return TypedResults.Ok(resultDTO);
         }
 
-        private static async Task<IResult> Post(IRepository<Wishlist> repository, string userId, ClaimsPrincipal user)
+        private static async Task<IResult> Post(IRepository<Wishlist> repository, IRepository<WishlistItem> repoItem, IRepository<Product> repoProduct, string userId, int productId, ClaimsPrincipal user)
         {
+
+            // doesn't work, pls fix
+
             var wishlists = await repository.Get();
+            var items = await repoItem.Get();
+            var product = await repoProduct.GetById(productId);
 
             if (wishlists.Any(x => x.UserId.Equals(userId, StringComparison.OrdinalIgnoreCase)))
             {
@@ -70,7 +58,17 @@ namespace Marketplace.Endpoints
             var entity = new Wishlist()
             {
                 Id = wishlists.Count() + 1,
-                UserId = userId
+                UserId = userId,
+                WishlistItems = new List<WishlistItem>()
+                /*{
+                    new WishlistItem()
+                    {
+                        Id = items.Count() + 1,
+                        ProductId = productId,
+                        Product = product,
+                        WishlistId = wishlists.Count(),
+                    }
+                }*/
             };
 
             await repository.Insert(entity);
@@ -88,6 +86,28 @@ namespace Marketplace.Endpoints
             var result = await repository.Delete(id);
             return TypedResults.Ok(result);
 
+        }
+
+        private static WishlistDTO createWishlistDTO(Wishlist w)
+        {
+            WishlistDTO wishlist = new WishlistDTO();
+            wishlist.Id = w.Id;
+            wishlist.UserId = w.UserId;
+            wishlist.WishlistItems.AddRange(w.WishlistItems.Select(item => new WishlistItemDTO
+            {
+                Id = item.Id,
+                ProductId = item.ProductId,
+                Product = new ProductDTO
+                {
+                    Name = item.Product.Name,
+                    Description = item.Product.Description,
+                    Price = item.Product.Price,
+                    ImageURL = item.Product.ImageURL,
+                    Category = item.Product.Category
+                }
+            }).ToList());
+
+            return wishlist;
         }
     }
 }
