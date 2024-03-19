@@ -1,9 +1,11 @@
-﻿using Marketplace.DataModels;
+﻿using Marketplace.Data;
+using Marketplace.DataModels;
 using Marketplace.DataTransfers.Requests;
 using Marketplace.DataTransfers.Responses;
 using Marketplace.Helpers;
 using Marketplace.Repository;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace Marketplace.Endpoints
@@ -15,21 +17,12 @@ namespace Marketplace.Endpoints
             var orders = app.MapGroup("orders");
             orders.MapGet("/", Get);
             orders.MapGet("/{id}", GetById);
-            orders.MapPost("/{id}", Post).AddEndpointFilter(async (invocationContext, next) =>
-            {
-                var product = invocationContext.GetArgument<ProductPost>(1);
-
-                if (string.IsNullOrEmpty(product.Name))
-                {
-                    return Results.BadRequest("You must enter a product name");
-                }
-                return await next(invocationContext);
-            });
+            orders.MapPost("/", Post);
             orders.MapPut("/{id}", Update);
             orders.MapDelete("/{id}", Delete);
         }
 
-        //[Authorize(Roles ="Admin")]
+        [Authorize(Roles ="Admin")]
         private static async Task<IResult> Get(IRepository<OrderHistory> repository)
         {
             var products = await repository.Get();
@@ -41,15 +34,68 @@ namespace Marketplace.Endpoints
             return TypedResults.Ok(results);
         }
 
-        private static async Task<IResult> GetById(IRepository<Product> repository, int id)
+        private static async Task<IResult> GetById(IRepository<OrderHistory> repository, int id, ClaimsPrincipal user)
         {
-            throw new NotImplementedException();
+            var history = await repository.GetById(id);
+            if (history == null)
+            {
+                return Results.BadRequest("Can't find orderhistory with that id");
+            }
+            
+            if (history.UserId != user.UserId() && !user.IsInRole("Admin"))
+            {
+                return Results.Unauthorized();
+            }
+            return TypedResults.Ok(createOrderHistoryDTO(history));
         }
 
-        [Authorize(Roles = "Admin")]
-        private static async Task<IResult> Post(IRepository<Product> repository, ProductPost product, ClaimsPrincipal user)
-        {
-            throw new NotImplementedException();
+        private static async Task<IResult> Post(IRepository<OrderHistory> repository, OrderHistoryPost oh, ClaimsPrincipal user, DataContext context)
+        { 
+            if (string.IsNullOrEmpty(user.UserId()))
+            {
+                return TypedResults.Unauthorized();
+            }
+            var histories = await repository.Get();
+            // 1. Create and populate the OrderHistory object
+            var orderHistory = new OrderHistory
+            {
+                Id = histories.Max(o => o.Id)+1,
+                ShippingAddress = oh.ShippingAddress,
+                ShippingCity = oh.ShippingCity,
+                ShippingPostCode = oh.ShippingPostCode,
+                TotalSum = oh.TotalSum,
+                DateOfOrder = oh.DateOfOrder,
+                UserId = user.UserId(),
+            };
+
+            // 2. Create and populate the OrderItem objects
+            foreach (var itemPost in oh.Items)
+            {
+                // Check if the product with the given ProductId exists
+                var productExists = await ProductExists(context, itemPost.ProductId);
+                if (!productExists)
+                {
+                    return Results.BadRequest($"Product with ID {itemPost.ProductId} does not exist.");
+                }
+                var orderItems = context.OrderItems;
+
+                var orderItem = new OrderItem
+                {
+                    Id = orderItems.Max(o => o.Id)+1,
+                    ProductId = itemPost.ProductId,
+                    CurrentPrice = itemPost.CurrentPrice,
+                    Amount = itemPost.Amount,
+                    OrderHistoryId = orderHistory.Id // Set OrderHistoryId to establish the association
+                };
+
+                // Add the OrderItem to the OrderHistory's Items collection
+                orderHistory.Items.Add(orderItem);
+            }
+
+            // 3. Insert the OrderHistory object along with its associated OrderItem objects into the database
+            await repository.Insert(orderHistory);
+
+            return TypedResults.Ok(createOrderHistoryDTO(orderHistory));
         }
 
         [Authorize(Roles = "Admin")]
@@ -91,6 +137,12 @@ namespace Marketplace.Endpoints
             }).ToList());
 
             return orderhistory;
+        }
+        // Helper method to check if a product with the given ProductId exists in the Products table
+        private static async Task<bool> ProductExists(DataContext context, int productId)
+        {
+            // Check if a product with the given ProductId exists in the Products table
+            return await context.Products.AnyAsync(p => p.Id == productId);
         }
     }
 }
