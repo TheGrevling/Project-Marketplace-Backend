@@ -60,6 +60,7 @@ builder.Services.AddDbContext<DataContext>(opt =>
 });
 builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
 builder.Services.AddScoped<IRepository<Review>, Repository<Review>>();
+builder.Services.AddScoped<IRepository<OrderHistory>, Repository<OrderHistory>>();
 builder.Services.AddScoped<IRepository<Wishlist>, Repository<Wishlist>>();
 builder.Services.AddScoped<TokenService, TokenService>();
 
@@ -135,6 +136,7 @@ app.UseAuthorization();
 
 // Endpoints
 app.ConfigureProductEndpoints();
+app.ConfigureOrderEndpoints();
 app.ConfigureReviewEndpoints();
 app.ConfigureWishlistEndpoints();
 
