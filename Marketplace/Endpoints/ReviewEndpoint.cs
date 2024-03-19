@@ -14,16 +14,7 @@ namespace Marketplace.Endpoints
             var reviews = app.MapGroup("reviews");
             reviews.MapGet("/", Get);
             reviews.MapGet("/{id}", GetById);
-            reviews.MapPost("/{id}", Post).AddEndpointFilter(async (invocationContext, next) =>
-            {
-                var review = invocationContext.GetArgument<ReviewPost>(1);
-
-                if (string.IsNullOrEmpty(review.Title) || string.IsNullOrEmpty(review.Content))
-                {
-                    return Results.BadRequest("You must enter a full review");
-                }
-                return await next(invocationContext);
-            });
+            reviews.MapPost("/{id}", Post);
             reviews.MapPut("/{id}", Update);
             reviews.MapDelete("/{id}", Delete);
         }
@@ -57,21 +48,18 @@ namespace Marketplace.Endpoints
             {
                 return Results.BadRequest("Review with this title already exists");
             }
-            if (user.IsInRole("Admin"))
+            
+            var entity = new Review()
             {
-                var entity = new Review()
-                {
-                    Id = reviews.Count() + 1,
-                    UserId = userId,
-                    ProductId = productId,
-                    Rating = review.Rating,
-                    Title = review.Title,
-                    Content = review.Content,
-                };
-                await repository.Insert(entity);
-                return TypedResults.Created($"product posted: {entity.Title}", entity);
-            }
-            return TypedResults.Unauthorized();
+                Id = reviews.Count() + 1,
+                UserId = userId,
+                ProductId = productId,
+                Rating = review.Rating,
+                Title = review.Title,
+                Content = review.Content,
+            };
+            await repository.Insert(entity);
+            return TypedResults.Created($"product posted: {entity.Title}", entity);
         }
 
         private static async Task<IResult> Update(IRepository<Review> repository, int id, ReviewPut review, ClaimsPrincipal user)
@@ -82,20 +70,15 @@ namespace Marketplace.Endpoints
                 return TypedResults.NotFound($"Could not find review with provided Id:{id}");
             }
 
-            if (user.IsInRole("Admin"))
-            {
-                entity.Title = !string.IsNullOrEmpty(review.Title) ? review.Title : entity.Title;
-                entity.Content = !string.IsNullOrEmpty(review.Content) ? review.Content : entity.Content;
-                entity.Rating = (int)(review.Rating.HasValue ? review.Rating : entity.Rating);
+            entity.Title = !string.IsNullOrEmpty(review.Title) ? review.Title : entity.Title;
+            entity.Content = !string.IsNullOrEmpty(review.Content) ? review.Content : entity.Content;
+            entity.Rating = (int)(review.Rating.HasValue ? review.Rating : entity.Rating);
 
-                var result = await repository.Update(entity);
+            var result = await repository.Update(entity);
 
-                return result != null ? TypedResults.Ok(new { entity.Title }) :
-                    TypedResults.BadRequest("Failed to update review");
+            return result != null ? TypedResults.Ok(new { entity.Title }) :
+                TypedResults.BadRequest("Failed to update review");
 
-            }
-
-            return TypedResults.Unauthorized();
         }
 
         [Authorize(Roles = "Admin")]
@@ -106,13 +89,9 @@ namespace Marketplace.Endpoints
             {
                 return TypedResults.NotFound($"Could not find review with provided Id:{id}");
             }
-
-            if (user.IsInRole("Admin"))
-            {
-                var result = await repository.Delete(id);
-                return TypedResults.Ok(result);
-            }
-            return TypedResults.Unauthorized();
+            var result = await repository.Delete(id);
+            return TypedResults.Ok(result);
+            
         }
     }
 }
