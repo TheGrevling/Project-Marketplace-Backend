@@ -2,6 +2,7 @@
 
 namespace Marketplace.DataModels
 {
+    [Table("WishlistItem")]
     public class WishlistItem
     {
         [Column("id")]

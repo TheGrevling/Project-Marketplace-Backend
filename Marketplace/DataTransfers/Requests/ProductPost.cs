@@ -10,5 +10,6 @@ namespace Marketplace.DataTransfers.Requests
         public double Price { get; set; }
         public Category Category { get; set; }
         public string Description { get; set; }
+        public string ImageURL { get; set; }
     }
 }

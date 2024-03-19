@@ -67,7 +67,8 @@ namespace Marketplace.Endpoints
                     Producer = product.Producer,
                     Price = product.Price,
                     Category = product.Category,
-                    Description = product.Description
+                    Description = product.Description,
+                    ImageURL = product.ImageURL
                 };
                 await repository.Insert(entity);
                 return TypedResults.Created($"product posted: {entity.Name}", entity);
@@ -91,6 +92,7 @@ namespace Marketplace.Endpoints
                 entity.Category = (Enums.Category)((product.Category != null) ? product.Category : entity.Category);
                 entity.Price = (double)(product.Price.HasValue ? product.Price : entity.Price);
                 entity.Description = !string.IsNullOrEmpty(product.Description) ? product.Description : entity.Description;
+                entity.ImageURL = !string.IsNullOrEmpty(product.ImageURL) ? product.ImageURL : entity.ImageURL;
 
                 var result = await repository.Update(entity);
 

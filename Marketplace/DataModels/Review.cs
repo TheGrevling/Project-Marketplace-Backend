@@ -2,6 +2,7 @@
 
 namespace Marketplace.DataModels
 {
+    [Table("Review")]
     public class Review
     {
         [Column("id")]

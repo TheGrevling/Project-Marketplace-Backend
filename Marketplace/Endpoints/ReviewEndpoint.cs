@@ -35,7 +35,7 @@ namespace Marketplace.Endpoints
             var review = await repository.GetById(id);
             if (review == null)
             {
-                return Results.BadRequest("Can't find product with that id");
+                return Results.BadRequest("Can't find review with that id");
             }
             return TypedResults.Ok(review);
         }
