@@ -13,6 +13,6 @@ namespace Marketplace.DataTransfers.Responses
         public double TotalSum { get; set; }
         public DateTime DateOfOrder { get; set; }
         
-        public List<OrderItemDTO> Items = new List<OrderItemDTO>();
+        public List<OrderItemDTO> Items { get; set; } = new List<OrderItemDTO>();
     }
 }
