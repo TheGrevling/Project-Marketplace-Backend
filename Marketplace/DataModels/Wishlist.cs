@@ -11,6 +11,6 @@ namespace Marketplace.DataModels
         public string UserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
-        public List<WishlistItem> wishlistItems { get; set; }
+        public List<WishlistItem> WishlistItems { get; set; }
     }
 }
