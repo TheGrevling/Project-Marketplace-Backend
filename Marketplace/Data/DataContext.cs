@@ -154,6 +154,12 @@ namespace Marketplace.Data
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Inventory> Inventory { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderHistory> OrderHistories { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Wishlist> Wishlist { get; set; }
+        public DbSet<WishlistItem> WishlistItems { get; set;}
     }
 }
