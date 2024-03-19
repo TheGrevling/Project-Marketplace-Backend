@@ -89,64 +89,6 @@ namespace Marketplace.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Marketplace.DataModels.Inventory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer")
-                        .HasColumnName("fk_product_id");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer")
-                        .HasColumnName("quantity");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Inventory");
-                });
-
-            modelBuilder.Entity("Marketplace.DataModels.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("OrderHistoryId")
-                        .HasColumnType("integer")
-                        .HasColumnName("fk_order_history_id");
-
-                    b.Property<int>("OrderItemId")
-                        .HasColumnType("integer")
-                        .HasColumnName("fk_order_item_id");
-
-                    b.Property<int>("OrderQuantity")
-                        .HasColumnType("integer")
-                        .HasColumnName("quantity");
-
-                    b.Property<double>("OrderSum")
-                        .HasColumnType("double precision")
-                        .HasColumnName("sum");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderHistoryId");
-
-                    b.HasIndex("OrderItemId");
-
-                    b.ToTable("Order");
-                });
-
             modelBuilder.Entity("Marketplace.DataModels.OrderHistory", b =>
                 {
                     b.Property<int>("Id")
@@ -155,13 +97,6 @@ namespace Marketplace.Migrations
                         .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("text");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("integer")
-                        .HasColumnName("fk_order_id");
 
                     b.Property<string>("ShippingAddress")
                         .IsRequired()
@@ -189,9 +124,7 @@ namespace Marketplace.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("OrderId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("OrderHistory");
                 });
@@ -205,9 +138,9 @@ namespace Marketplace.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("OrderId")
+                    b.Property<int>("OrderHistoryId")
                         .HasColumnType("integer")
-                        .HasColumnName("fk_order_id");
+                        .HasColumnName("fk_order_history_id");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("integer")
@@ -215,7 +148,7 @@ namespace Marketplace.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("OrderHistoryId");
 
                     b.HasIndex("ProductId");
 
@@ -270,9 +203,9 @@ namespace Marketplace.Migrations
                             Category = 0,
                             Description = "Description of boardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg",
-                            Name = "Galactic Magic",
-                            Price = 424.0,
-                            Producer = "Empire Games"
+                            Name = "Epic Battles",
+                            Price = 793.0,
+                            Producer = "Galactic Entertainment"
                         },
                         new
                         {
@@ -280,9 +213,9 @@ namespace Marketplace.Migrations
                             Category = 0,
                             Description = "Description of boardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg",
-                            Name = "Epic Manor",
-                            Price = 213.0,
-                            Producer = "Legendary Productions"
+                            Name = "Mystic Magic",
+                            Price = 152.0,
+                            Producer = "Mythical Games"
                         },
                         new
                         {
@@ -290,9 +223,9 @@ namespace Marketplace.Migrations
                             Category = 0,
                             Description = "Description of boardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg",
-                            Name = "Mystic Battles",
-                            Price = 214.0,
-                            Producer = "Mythical Studios"
+                            Name = "Galactic Battles",
+                            Price = 126.0,
+                            Producer = "Empire Studios"
                         },
                         new
                         {
@@ -300,9 +233,9 @@ namespace Marketplace.Migrations
                             Category = 0,
                             Description = "Description of boardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg",
-                            Name = "Kingdoms Manor",
-                            Price = 591.0,
-                            Producer = "Empire Entertainment"
+                            Name = "Galactic Quest",
+                            Price = 587.0,
+                            Producer = "Mystic Studios"
                         },
                         new
                         {
@@ -310,9 +243,9 @@ namespace Marketplace.Migrations
                             Category = 0,
                             Description = "Description of boardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg",
-                            Name = "Ancient Manor",
-                            Price = 291.0,
-                            Producer = "Mythical Productions"
+                            Name = "Ancient Battles",
+                            Price = 677.0,
+                            Producer = "Galactic Entertainment"
                         },
                         new
                         {
@@ -320,8 +253,8 @@ namespace Marketplace.Migrations
                             Category = 1,
                             Description = "Description of cardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg",
-                            Name = "Adventure Battles",
-                            Price = 798.0,
+                            Name = "Ancient Quest",
+                            Price = 596.0,
                             Producer = "Adventure Creations"
                         },
                         new
@@ -330,9 +263,9 @@ namespace Marketplace.Migrations
                             Category = 1,
                             Description = "Description of cardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg",
-                            Name = "Adventure Battles",
-                            Price = 984.0,
-                            Producer = "Legendary Games"
+                            Name = "Adventure Quest",
+                            Price = 787.0,
+                            Producer = "Mythical Creations"
                         },
                         new
                         {
@@ -340,8 +273,8 @@ namespace Marketplace.Migrations
                             Category = 1,
                             Description = "Description of cardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg",
-                            Name = "Adventure Chronicles",
-                            Price = 715.0,
+                            Name = "Adventure Quest",
+                            Price = 422.0,
                             Producer = "Galactic Co."
                         },
                         new
@@ -350,9 +283,9 @@ namespace Marketplace.Migrations
                             Category = 1,
                             Description = "Description of cardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg",
-                            Name = "Adventure Quest",
-                            Price = 812.0,
-                            Producer = "Mystic Productions"
+                            Name = "Kingdoms Battles",
+                            Price = 738.0,
+                            Producer = "Empire Entertainment"
                         },
                         new
                         {
@@ -360,9 +293,9 @@ namespace Marketplace.Migrations
                             Category = 1,
                             Description = "Description of cardgame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg",
-                            Name = "Galactic Conquest",
-                            Price = 315.0,
-                            Producer = "Adventure Creations"
+                            Name = "Adventure Chronicles",
+                            Price = 453.0,
+                            Producer = "Galactic Games"
                         },
                         new
                         {
@@ -370,9 +303,9 @@ namespace Marketplace.Migrations
                             Category = 2,
                             Description = "Description of roleplay",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg",
-                            Name = "Epic Conquest",
-                            Price = 456.0,
-                            Producer = "Mystic Creations"
+                            Name = "Kingdoms Conquest",
+                            Price = 736.0,
+                            Producer = "Adventure Productions"
                         },
                         new
                         {
@@ -380,9 +313,9 @@ namespace Marketplace.Migrations
                             Category = 2,
                             Description = "Description of roleplay",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg",
-                            Name = "Galactic Manor",
-                            Price = 471.0,
-                            Producer = "Empire Creations"
+                            Name = "Epic Conquest",
+                            Price = 952.0,
+                            Producer = "Legendary Co."
                         },
                         new
                         {
@@ -390,9 +323,9 @@ namespace Marketplace.Migrations
                             Category = 2,
                             Description = "Description of roleplay",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg",
-                            Name = "Galactic Magic",
-                            Price = 324.0,
-                            Producer = "Empire Co."
+                            Name = "Adventure Magic",
+                            Price = 268.0,
+                            Producer = "Empire Productions"
                         },
                         new
                         {
@@ -400,9 +333,9 @@ namespace Marketplace.Migrations
                             Category = 2,
                             Description = "Description of roleplay",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg",
-                            Name = "Epic Conquest",
-                            Price = 659.0,
-                            Producer = "Mythical Productions"
+                            Name = "Epic Quest",
+                            Price = 324.0,
+                            Producer = "Galactic Co."
                         },
                         new
                         {
@@ -410,9 +343,9 @@ namespace Marketplace.Migrations
                             Category = 2,
                             Description = "Description of roleplay",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg",
-                            Name = "Epic Conquest",
-                            Price = 626.0,
-                            Producer = "Mystic Co."
+                            Name = "Mystic Manor",
+                            Price = 858.0,
+                            Producer = "Adventure Studios"
                         },
                         new
                         {
@@ -420,9 +353,9 @@ namespace Marketplace.Migrations
                             Category = 3,
                             Description = "Description of puzzlegame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg",
-                            Name = "Adventure Manor",
-                            Price = 467.0,
-                            Producer = "Galactic Co."
+                            Name = "Ancient Conquest",
+                            Price = 321.0,
+                            Producer = "Empire Co."
                         },
                         new
                         {
@@ -430,9 +363,9 @@ namespace Marketplace.Migrations
                             Category = 3,
                             Description = "Description of puzzlegame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg",
-                            Name = "Ancient Quest",
-                            Price = 161.0,
-                            Producer = "Empire Creations"
+                            Name = "Kingdoms Battles",
+                            Price = 518.0,
+                            Producer = "Legendary Productions"
                         },
                         new
                         {
@@ -440,9 +373,9 @@ namespace Marketplace.Migrations
                             Category = 3,
                             Description = "Description of puzzlegame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg",
-                            Name = "Mystic Chronicles",
-                            Price = 451.0,
-                            Producer = "Legendary Productions"
+                            Name = "Galactic Conquest",
+                            Price = 305.0,
+                            Producer = "Empire Creations"
                         },
                         new
                         {
@@ -450,9 +383,9 @@ namespace Marketplace.Migrations
                             Category = 3,
                             Description = "Description of puzzlegame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg",
-                            Name = "Kingdoms Conquest",
-                            Price = 659.0,
-                            Producer = "Galactic Studios"
+                            Name = "Mystic Magic",
+                            Price = 994.0,
+                            Producer = "Adventure Creations"
                         },
                         new
                         {
@@ -460,9 +393,9 @@ namespace Marketplace.Migrations
                             Category = 3,
                             Description = "Description of puzzlegame",
                             ImageURL = "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg",
-                            Name = "Ancient Magic",
-                            Price = 239.0,
-                            Producer = "Adventure Studios"
+                            Name = "Ancient Manor",
+                            Price = 772.0,
+                            Producer = "Galactic Entertainment"
                         });
                 });
 
@@ -521,15 +454,9 @@ namespace Marketplace.Migrations
                         .HasColumnType("text")
                         .HasColumnName("fk_user_id");
 
-                    b.Property<int>("WishlistItemId")
-                        .HasColumnType("integer")
-                        .HasColumnName("fk_wishlist_item_id");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("WishlistItemId");
 
                     b.ToTable("Wishlist");
                 });
@@ -626,58 +553,22 @@ namespace Marketplace.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Marketplace.DataModels.Inventory", b =>
-                {
-                    b.HasOne("Marketplace.DataModels.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Marketplace.DataModels.Order", b =>
-                {
-                    b.HasOne("Marketplace.DataModels.OrderHistory", "OrderHistory")
-                        .WithMany()
-                        .HasForeignKey("OrderHistoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Marketplace.DataModels.OrderItem", "OrderItem")
-                        .WithMany()
-                        .HasForeignKey("OrderItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OrderHistory");
-
-                    b.Navigation("OrderItem");
-                });
-
             modelBuilder.Entity("Marketplace.DataModels.OrderHistory", b =>
                 {
                     b.HasOne("Marketplace.DataModels.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("Marketplace.DataModels.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Marketplace.DataModels.OrderItem", b =>
                 {
-                    b.HasOne("Marketplace.DataModels.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
+                    b.HasOne("Marketplace.DataModels.OrderHistory", "Order")
+                        .WithMany("Items")
+                        .HasForeignKey("OrderHistoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -719,15 +610,7 @@ namespace Marketplace.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Marketplace.DataModels.WishlistItem", "WishlistItem")
-                        .WithMany()
-                        .HasForeignKey("WishlistItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("ApplicationUser");
-
-                    b.Navigation("WishlistItem");
                 });
 
             modelBuilder.Entity("Marketplace.DataModels.WishlistItem", b =>
@@ -739,7 +622,7 @@ namespace Marketplace.Migrations
                         .IsRequired();
 
                     b.HasOne("Marketplace.DataModels.Wishlist", "Wishlist")
-                        .WithMany()
+                        .WithMany("wishlistItems")
                         .HasForeignKey("WishlistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -776,9 +659,19 @@ namespace Marketplace.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Marketplace.DataModels.OrderHistory", b =>
+                {
+                    b.Navigation("Items");
+                });
+
             modelBuilder.Entity("Marketplace.DataModels.Product", b =>
                 {
                     b.Navigation("reviewsList");
+                });
+
+            modelBuilder.Entity("Marketplace.DataModels.Wishlist", b =>
+                {
+                    b.Navigation("wishlistItems");
                 });
 #pragma warning restore 612, 618
         }
