@@ -1,6 +1,7 @@
 ﻿using Marketplace.DataModels;
 using Marketplace.DataTransfers.Requests;
 using Marketplace.DataTransfers.Responses;
+using Marketplace.Helpers;
 using Marketplace.Repository;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
@@ -29,16 +30,18 @@ namespace Marketplace.Endpoints
             return TypedResults.Ok(results);
         }
 
-        private static async Task<IResult> GetById(IRepository<Wishlist> repository, string userId)
+        private static async Task<IResult> GetById(IRepository<Wishlist> repository, int id, ClaimsPrincipal user)
         {
-            var wishlist = await repository.Get();
-            if (!wishlist.Any(x => x.UserId == userId))
+            var wishlist = await repository.GetById(id);
+            if (wishlist == null)
             {
                 return Results.BadRequest("Can't find wishlist matching that user id");
             }
-            Wishlist result = wishlist.First(x => x.UserId == userId);
-            WishlistDTO resultDTO = createWishlistDTO(result);
-            return TypedResults.Ok(resultDTO);
+            if (wishlist.UserId != user.UserId() && !user.IsInRole("Admin"))
+            {
+                return Results.Unauthorized();
+            }
+            return TypedResults.Ok(createWishlistDTO(wishlist));
         }
 
         private static async Task<IResult> Post(IRepository<Wishlist> repository, IRepository<WishlistItem> repoItem, IRepository<Product> repoProduct, string userId, int productId, ClaimsPrincipal user)
