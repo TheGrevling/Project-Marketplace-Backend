@@ -9,7 +9,7 @@ namespace Marketplace.DataTransfers.Responses
         public double CurrentPrice { get; set; }
         public int Amount { get; set; }
         public int ProductId { get; set; }
-        //public ProductDTO Product { get; set; }
+        public ProductDTO Product { get; set; }
 
     }
 }
