@@ -1,9 +1,11 @@
-﻿using Marketplace.DataModels;
+﻿using Marketplace.Data;
+using Marketplace.DataModels;
 using Marketplace.DataTransfers.Requests;
 using Marketplace.DataTransfers.Responses;
 using Marketplace.Helpers;
 using Marketplace.Repository;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace Marketplace.Endpoints
@@ -44,38 +46,46 @@ namespace Marketplace.Endpoints
             return TypedResults.Ok(createWishlistDTO(wishlist));
         }
 
-        private static async Task<IResult> Post(IRepository<Wishlist> repository, IRepository<WishlistItem> repoItem, IRepository<Product> repoProduct, string userId, int productId, ClaimsPrincipal user)
+        private static async Task<IResult> Post(IRepository<Wishlist> repository, WishlistPost post, ClaimsPrincipal user, DataContext context)
         {
-
-            // doesn't work, pls fix
-
-            var wishlists = await repository.Get();
-            var items = await repoItem.Get();
-            var product = await repoProduct.GetById(productId);
-
-            if (wishlists.Any(x => x.UserId.Equals(userId, StringComparison.OrdinalIgnoreCase)))
+            if(string.IsNullOrEmpty(user.UserId()))
             {
-                return Results.BadRequest($"Wishlist for {userId} already exists");
+                return TypedResults.Unauthorized();
             }
 
-            var entity = new Wishlist()
+            var wishlists = await repository.Get();
+
+            var postwishlist = new Wishlist()
             {
-                Id = wishlists.Count() + 1,
-                UserId = userId,
+                Id = wishlists.Max(w => w.Id) + 1,
+                UserId = user.UserId(),
                 WishlistItems = new List<WishlistItem>()
-                /*{
-                    new WishlistItem()
-                    {
-                        Id = items.Count() + 1,
-                        ProductId = productId,
-                        Product = product,
-                        WishlistId = wishlists.Count(),
-                    }
-                }*/
             };
 
-            await repository.Insert(entity);
-            return TypedResults.Created($"Wishlist posted: {entity.Id}", entity);
+            foreach (var wishlistItem in post.Items)
+            {
+                // Check if the product with the given ProductId exists
+                var productExists = await ProductExists(context, wishlistItem.ProductId);
+                if (!productExists)
+                {
+                    return Results.BadRequest($"Product with ID {wishlistItem.ProductId} does not exist.");
+                }
+
+                var wishlistItems = context.WishlistItems;
+
+                var newItem = new WishlistItem
+                {
+                    Id = wishlistItems.Max(w => w.Id) + 1,
+                    ProductId = wishlistItem.ProductId,
+                    WishlistId = postwishlist.Id  // Set WishlistId to establish the association
+                };
+
+                // Add the wishlistItem  to the Wishlist's Items collection
+                postwishlist.WishlistItems.Add(newItem);
+            }
+            // Insert the new Wishlist object along with its associated WishlistLitem objects into the database
+            await repository.Insert(postwishlist);
+            return TypedResults.Ok(createWishlistDTO(postwishlist));
         }
 
         [Authorize(Roles = "Admin")]
@@ -111,6 +121,13 @@ namespace Marketplace.Endpoints
             }).ToList());
 
             return wishlist;
+        }
+
+        // Helper method to check if a product with the given ProductId exists in the Products table
+        private static async Task<bool> ProductExists(DataContext context, int productId)
+        {
+            // Check if a product with the given ProductId exists in the Products table
+            return await context.Products.AnyAsync(p => p.Id == productId);
         }
     }
 }
