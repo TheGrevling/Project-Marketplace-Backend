@@ -2,9 +2,12 @@
 using Marketplace.DataModels;
 using Marketplace.DataTransfers.Requests;
 using Marketplace.DataTransfers.Responses;
+using Marketplace.Enums;
 using Marketplace.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Marketplace.Controllers
 {
@@ -93,6 +96,8 @@ namespace Marketplace.Controllers
             }
 
             var accessToken = _tokenService.CreateToken(userInDb);
+
+
             await _context.SaveChangesAsync();
 
             return Ok(new AuthResponse
@@ -103,5 +108,63 @@ namespace Marketplace.Controllers
                 Token = accessToken,
             });
         }
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        [Route("users")]
+        public async Task<ActionResult<IEnumerable<UserResponse>>> GetAllUsers()
+        {
+            var users = await _context.Users
+                .Select(u => new
+                {
+                    u.Id,
+                    u.UserName,
+                    u.Email,
+                    u.Role
+                })
+                .ToListAsync();
+
+            var userResponses = users.Select(u => new UserResponse
+            {
+                Id = u.Id,
+                Username = u.UserName,
+                Email = u.Email,
+                Role = u.Role
+            }).ToList();
+
+            return Ok(userResponses);
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = "Admin")]
+        [Route("users/{userId}")]
+        public async Task<IActionResult> DeleteUser(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+
+            if (result.Succeeded)
+            {
+                return NoContent(); // 204 No Content if deletion is successful
+            }
+
+            // If deletion failed, return the errors
+            return BadRequest(result.Errors);
+        }
+    }
+
+    // Define a response model for user data
+    public class UserResponse
+    {
+        public string Id { get; set; }
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public Role Role { get; set; }
     }
 }
+

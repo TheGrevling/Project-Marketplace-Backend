@@ -1,6 +1,7 @@
 ﻿using Marketplace.DataModels;
 using Marketplace.DataTransfers.Requests;
 using Marketplace.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using System.Security.Claims;
 
@@ -48,7 +49,7 @@ namespace Marketplace.Endpoints
             return TypedResults.Ok(review);
         }
 
-        private static async Task<IResult> Post(IRepository<Review> repository, int userId, int productId, ReviewPost review, ClaimsPrincipal user)
+        private static async Task<IResult> Post(IRepository<Review> repository, string userId, int productId, ReviewPost review, ClaimsPrincipal user)
         {
             var reviews = await repository.Get();
 
@@ -97,6 +98,7 @@ namespace Marketplace.Endpoints
             return TypedResults.Unauthorized();
         }
 
+        [Authorize(Roles = "Admin")]
         private static async Task<IResult> Delete(IRepository<Review> repository, int id, ClaimsPrincipal user)
         {
             var entity = await repository.GetById(id);
