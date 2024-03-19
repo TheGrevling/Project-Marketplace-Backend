@@ -74,7 +74,7 @@ namespace Marketplace.Endpoints
             orderhistory.ShippingCity = oh.ShippingCity;
             orderhistory.ShippingPostCode = oh.ShippingPostCode;
             orderhistory.UserId = oh.UserId;
-            orderhistory.Items = oh.Items.Select(item => new OrderItemDTO
+            orderhistory.Items.AddRange( oh.Items.Select(item => new OrderItemDTO
             {
                 Id = item.Id,
                 CurrentPrice = item.CurrentPrice,
@@ -88,7 +88,7 @@ namespace Marketplace.Endpoints
                     ImageURL = item.Product.ImageURL,
                     Category = item.Product.Category
                 }
-            }).ToList();
+            }).ToList());
 
             return orderhistory;
         }
