@@ -2,6 +2,7 @@
 using Marketplace.DataTransfers.Requests;
 using Marketplace.Helpers;
 using Marketplace.Repository;
+using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
 namespace Marketplace.Endpoints
@@ -48,6 +49,7 @@ namespace Marketplace.Endpoints
             return TypedResults.Ok(product);
         }
 
+        [Authorize(Roles ="Admin")]
         private static async Task<IResult> Post(IRepository<Product> repository, ProductPost product, ClaimsPrincipal user)
         {
             var products = await repository.Get();
@@ -73,6 +75,7 @@ namespace Marketplace.Endpoints
             return TypedResults.Unauthorized();
         }
 
+        [Authorize(Roles = "Admin")]
         private static async Task<IResult> Update(IRepository<Product> repository, int id, ProductPut product, ClaimsPrincipal user)
         {
             var entity = await repository.GetById(id);
@@ -99,6 +102,7 @@ namespace Marketplace.Endpoints
             return TypedResults.Unauthorized();
         }
 
+        [Authorize(Roles = "Admin")]
         private static async Task<IResult> Delete(IRepository<Product> repository, int id, ClaimsPrincipal user)
         {
             var entity = await repository.GetById(id);
