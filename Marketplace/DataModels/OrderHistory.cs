@@ -22,6 +22,6 @@ namespace Marketplace.DataModels
         public string UserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
-        public List<OrderItem> Items { get; set; }
+        public List<OrderItem> Items { get; set; } = new List<OrderItem>();
     }
 }
