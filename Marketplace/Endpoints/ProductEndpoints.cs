@@ -89,7 +89,7 @@ namespace Marketplace.Endpoints
             {
                 entity.Name = !string.IsNullOrEmpty(product.Name) ? product.Name : entity.Name;
                 entity.Producer = !string.IsNullOrEmpty(product.Producer) ? product.Producer : entity.Producer;
-                entity.Category = (Enums.Category)((product.Category != null) ? product.Category : entity.Category);
+                entity.Category = (product.Category != null) ? product.Category : entity.Category;
                 entity.Price = (double)(product.Price.HasValue ? product.Price : entity.Price);
                 entity.Description = !string.IsNullOrEmpty(product.Description) ? product.Description : entity.Description;
                 entity.ImageURL = !string.IsNullOrEmpty(product.ImageURL) ? product.ImageURL : entity.ImageURL;
