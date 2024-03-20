@@ -17,6 +17,7 @@ namespace Marketplace.Endpoints
             var orders = app.MapGroup("orders");
             orders.MapGet("/", Get);
             orders.MapGet("/{id}", GetById);
+            orders.MapGet("/myOrders", GetByUserId);
             orders.MapPost("/", Post);
         }
 
@@ -94,6 +95,21 @@ namespace Marketplace.Endpoints
             await repository.Insert(orderHistory);
 
             return TypedResults.Ok(createOrderHistoryDTO(orderHistory));
+        }
+        [Authorize]
+        private static async Task<IResult> GetByUserId(IRepository<OrderHistory> repository, ClaimsPrincipal user)
+        {
+            // Define a function to extract the UserId from an OrderHistory object
+            Func<OrderHistory, string> getUserIdFunc = (OrderHistory oh) => oh.UserId;
+
+            // Retrieve order histories by user ID using the GetByUserId method
+            var orderHistories = await repository.GetByUserId(user.UserId(), getUserIdFunc);
+
+            // Project each OrderHistory object to its corresponding DTO using createOrderHistoryDTO function
+            var orderHistoryDTOs = orderHistories.Select(createOrderHistoryDTO);
+
+            // Return the filtered order history DTOs
+            return TypedResults.Ok(orderHistoryDTOs);
         }
 
         private static OrderHistoryDTO createOrderHistoryDTO(OrderHistory oh)
