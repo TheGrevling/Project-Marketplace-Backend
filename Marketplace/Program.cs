@@ -70,6 +70,17 @@ builder.Services.AddControllers().AddJsonOptions(opt =>
     opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigin",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:5173") // TODO: Should be changed to frontend hosting service URL later on
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
+
 
 // Specify identity requirements
 // Must be added before .AddAuthentication otherwise a 404 is thrown on authorized endpoints
@@ -133,6 +144,9 @@ app.UseStatusCodePages();
 // Auth
 app.UseAuthentication();
 app.UseAuthorization();
+
+// CORS
+app.UseCors("AllowOrigin");
 
 // Endpoints
 app.ConfigureProductEndpoints();
