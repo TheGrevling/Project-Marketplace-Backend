@@ -1,5 +1,6 @@
 ﻿using Marketplace.DataModels;
 using Marketplace.DataTransfers.Requests;
+using Marketplace.Helpers;
 using Marketplace.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -40,19 +41,19 @@ namespace Marketplace.Endpoints
             return TypedResults.Ok(review);
         }
 
-        private static async Task<IResult> Post(IRepository<Review> repository, string userId, int productId, ReviewPost review, ClaimsPrincipal user)
+        private static async Task<IResult> Post(IRepository<Review> repository, int productId, ReviewPost review, ClaimsPrincipal user)
         {
-            var reviews = await repository.Get();
-
-            if (reviews.Any(x => x.Title.Equals(review.Title, StringComparison.OrdinalIgnoreCase)))
+            if (string.IsNullOrEmpty(user.UserId()))
             {
-                return Results.BadRequest("Review with this title already exists");
+                return TypedResults.Unauthorized();
             }
+
+            var reviews = await repository.Get();
             
             var entity = new Review()
             {
                 Id = reviews.Count() + 1,
-                UserId = userId,
+                UserId = user.UserId(),
                 ProductId = productId,
                 Rating = review.Rating,
                 Title = review.Title,
