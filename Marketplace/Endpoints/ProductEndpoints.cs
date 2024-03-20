@@ -3,6 +3,7 @@ using Marketplace.DataTransfers.Requests;
 using Marketplace.Helpers;
 using Marketplace.Repository;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace Marketplace.Endpoints
@@ -29,16 +30,19 @@ namespace Marketplace.Endpoints
             products.MapDelete("/{id}", Delete);
         }
 
-        private static async Task<IResult> Get(IRepository<Product> repository)
+        private static async Task<IResult> Get(IRepository<Product> repository, string? category)
         {
             var products = await repository.Get();
-            List<Product> results = new List<Product>();
-            foreach (var product in products)
+
+            if (!string.IsNullOrEmpty(category))
             {
-                results.Add(product);
+                // Filter products based on category
+                products = products.Where(p => string.Equals(p.Category, category, StringComparison.OrdinalIgnoreCase)).ToList();
             }
-            return TypedResults.Ok(results);
+
+            return TypedResults.Ok(products);
         }
+
 
         private static async Task<IResult> GetById(IRepository<Product> repository, int id)
         {
