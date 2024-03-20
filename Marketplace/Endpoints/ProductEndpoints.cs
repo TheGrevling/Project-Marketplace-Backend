@@ -36,7 +36,7 @@ namespace Marketplace.Endpoints
             if (!string.IsNullOrEmpty(category))
             {
                 // Filter products based on category
-                products = products.Where(p => p.Category == category).ToList();
+                products = products.Where(p => string.Equals(p.Category, category, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
             return TypedResults.Ok(products);
