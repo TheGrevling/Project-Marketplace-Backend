@@ -7,6 +7,7 @@ namespace Marketplace.DataTransfers.Responses
     public class WishlistDTO
     {
         public int Id { get; set; }
-        public IEnumerable<WishlistItemDTO> WishlistItems { get; set; }
+        public string UserId { get; set; }
+        public List<WishlistItemDTO> WishlistItems { get; set; } = new List<WishlistItemDTO>();
     }
 }
