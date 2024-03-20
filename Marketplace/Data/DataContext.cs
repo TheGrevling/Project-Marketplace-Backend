@@ -87,7 +87,7 @@ namespace Marketplace.Data
                     Name = GetRandomProductName(),
                     Producer = GetRandomProducer(),
                     Price = rng.Next(100, 1000), // Assuming price range from 100 to 1000 NOK
-                    Category = Category.Boardgame,
+                    Category = "Boardgame",
                     Description = "Description of boardgame",
                     ImageURL = "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg"
                 });
@@ -102,7 +102,7 @@ namespace Marketplace.Data
                     Name = GetRandomProductName(),
                     Producer = GetRandomProducer(),
                     Price = rng.Next(100, 1000), // Assuming price range from 100 to 1000 NOK
-                    Category = Category.Cardgame,
+                    Category = "Cardgame",
                     Description = "Description of cardgame",
                     ImageURL = "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg"
                 });
@@ -117,7 +117,7 @@ namespace Marketplace.Data
                     Name = GetRandomProductName(),
                     Producer = GetRandomProducer(),
                     Price = rng.Next(100, 1000), // Assuming price range from 100 to 1000 NOK
-                    Category = Category.Roleplay,
+                    Category = "Roleplay",
                     Description = "Description of roleplay",
                     ImageURL = "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg"
                 });
@@ -132,7 +132,7 @@ namespace Marketplace.Data
                     Name = GetRandomProductName(),
                     Producer = GetRandomProducer(),
                     Price = rng.Next(100, 1000), // Assuming price range from 100 to 1000 NOK
-                    Category = Category.Puzzlegame,
+                    Category = "Puzzlegame",
                     Description = "Description of puzzlegame",
                     ImageURL = "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg"
                 });

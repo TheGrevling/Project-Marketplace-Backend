@@ -1,5 +1,6 @@
 ﻿using Marketplace.Enums;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Marketplace.DataModels
@@ -16,7 +17,7 @@ namespace Marketplace.DataModels
         [Column("price")]
         public double Price { get; set; }
         [Column("category")]
-        public Category Category { get; set; }
+        public string Category { get; set; }
         [Column("description")]
         public string Description { get; set; }
         [Column("imageURL")]
