@@ -15,6 +15,7 @@ namespace Marketplace.Endpoints
             var products = app.MapGroup("products");
             products.MapGet("/", Get);
             products.MapGet("/{id}", GetById);
+            products.MapGet("/search", GetBySearch);
             products.MapPost("/{id}", Post).AddEndpointFilter(async (invocationContext, next) =>
             {
                 var product = invocationContext.GetArgument<ProductPost>(1);
@@ -53,6 +54,28 @@ namespace Marketplace.Endpoints
             return TypedResults.Ok(product);
         }
 
+        private static async Task<IResult> GetBySearch(IRepository<Product> repository, string q)
+        {
+            var products = await repository.Get();
+            List<Product> searchResults = new List<Product>();
+            foreach (var product in products)
+            {
+                // Return only products that match "q" aka search query
+                if (product.Name.Contains(q, StringComparison.OrdinalIgnoreCase))
+                {
+                    searchResults.Add(product);
+                } else if (product.Producer.Contains(q, StringComparison.OrdinalIgnoreCase))
+                {
+                    searchResults.Add(product);
+                } else if (product.Category.Contains(q, StringComparison.OrdinalIgnoreCase))
+                {
+                    searchResults.Add(product);
+                }
+                continue;
+            }
+            return TypedResults.Ok(searchResults);
+        }
+
         [Authorize(Roles ="Admin")]
         private static async Task<IResult> Post(IRepository<Product> repository, ProductPost product, ClaimsPrincipal user)
         {
@@ -70,7 +93,7 @@ namespace Marketplace.Endpoints
                     Name = product.Name,
                     Producer = product.Producer,
                     Price = product.Price,
-                    Category = product.Category,
+                    Category = product.Category, 
                     Description = product.Description,
                     ImageURL = product.ImageURL
                 };
