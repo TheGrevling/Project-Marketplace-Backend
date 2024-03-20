@@ -18,8 +18,6 @@ namespace Marketplace.Endpoints
             orders.MapGet("/", Get);
             orders.MapGet("/{id}", GetById);
             orders.MapPost("/", Post);
-            orders.MapPut("/{id}", Update);
-            orders.MapDelete("/{id}", Delete);
         }
 
         [Authorize(Roles ="Admin")]
@@ -50,7 +48,7 @@ namespace Marketplace.Endpoints
         }
 
         private static async Task<IResult> Post(IRepository<OrderHistory> repository, OrderHistoryPost oh, ClaimsPrincipal user, DataContext context)
-        { 
+        {
             if (string.IsNullOrEmpty(user.UserId()))
             {
                 return TypedResults.Unauthorized();
@@ -59,7 +57,7 @@ namespace Marketplace.Endpoints
             // 1. Create and populate the OrderHistory object
             var orderHistory = new OrderHistory
             {
-                Id = histories.Max(o => o.Id)+1,
+                Id = histories.Max(o => o.Id) + 1,
                 ShippingAddress = oh.ShippingAddress,
                 ShippingCity = oh.ShippingCity,
                 ShippingPostCode = oh.ShippingPostCode,
@@ -81,7 +79,7 @@ namespace Marketplace.Endpoints
 
                 var orderItem = new OrderItem
                 {
-                    Id = orderItems.Max(o => o.Id)+1,
+                    Id = orderItems.Max(o => o.Id) + 1,
                     ProductId = itemPost.ProductId,
                     CurrentPrice = itemPost.CurrentPrice,
                     Amount = itemPost.Amount,
@@ -96,18 +94,6 @@ namespace Marketplace.Endpoints
             await repository.Insert(orderHistory);
 
             return TypedResults.Ok(createOrderHistoryDTO(orderHistory));
-        }
-
-        [Authorize(Roles = "Admin")]
-        private static async Task<IResult> Update(IRepository<Product> repository, int id, ProductPut product, ClaimsPrincipal user)
-        {
-            throw new NotImplementedException();
-        }
-
-        [Authorize(Roles = "Admin")]
-        private static async Task<IResult> Delete(IRepository<Product> repository, int id, ClaimsPrincipal user)
-        {
-            throw new NotImplementedException();
         }
 
         private static OrderHistoryDTO createOrderHistoryDTO(OrderHistory oh)
