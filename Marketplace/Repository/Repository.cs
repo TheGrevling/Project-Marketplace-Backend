@@ -46,5 +46,14 @@ namespace Marketplace.Repository
             return entity;
         }
 
+        public async Task<IEnumerable<T>> GetByUserId(string userId, Func<T, string> getUserIdFunc)
+        {
+            // Materialize the query first using ToListAsync()
+            var entities = await _table.ToListAsync();
+
+            // Filter the entities based on the user ID using LINQ to Objects
+            return entities.Where(x => getUserIdFunc(x) == userId).ToList();
+        }
+
     }
 }

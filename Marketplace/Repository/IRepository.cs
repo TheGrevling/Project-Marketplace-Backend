@@ -7,5 +7,6 @@
         Task<T> Insert(T entity);
         Task<T> Update(T entity);
         Task<T> Delete(object id);
+        Task<IEnumerable<T>> GetByUserId(string userId, Func<T, string> getUserIdFunc);
     }
 }
