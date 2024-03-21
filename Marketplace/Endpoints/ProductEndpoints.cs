@@ -16,6 +16,7 @@ namespace Marketplace.Endpoints
             products.MapGet("/", Get);
             products.MapGet("/{id}", GetById);
             products.MapGet("/search", GetBySearch);
+            products.MapGet("/cart", GetCartProducts);
             products.MapPost("/{id}", Post).AddEndpointFilter(async (invocationContext, next) =>
             {
                 var product = invocationContext.GetArgument<ProductPost>(1);
@@ -74,6 +75,26 @@ namespace Marketplace.Endpoints
                 continue;
             }
             return TypedResults.Ok(searchResults);
+        }
+
+        private static async Task<IResult> GetCartProducts(IRepository<Product> repository, int[] productIds)
+        {
+            var products = await repository.Get();
+            List<Product> cartResults = new List<Product>();
+
+            foreach (var product in products)
+            {
+                foreach (var productId in productIds)
+                {
+                    if (product.Id == productId)
+                    {
+                        cartResults.Add(product);
+                    }
+                    continue;
+                }
+            }
+            return TypedResults.Ok(cartResults);
+
         }
 
         [Authorize(Roles ="Admin")]
