@@ -60,8 +60,9 @@ builder.Services.AddDbContext<DataContext>(opt =>
 });
 builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
 builder.Services.AddScoped<IRepository<Review>, Repository<Review>>();
+builder.Services.AddScoped<IRepository<WishlistItem>, Repository<WishlistItem>>();
 builder.Services.AddScoped<IRepository<OrderHistory>, Repository<OrderHistory>>();
-builder.Services.AddScoped<IRepository<Wishlist>, Repository<Wishlist>>();
+builder.Services.AddScoped<IRepository<OrderItem>, Repository<OrderItem>>();
 builder.Services.AddScoped<TokenService, TokenService>();
 
 // Support string to enum conversions
