@@ -92,8 +92,8 @@ namespace Marketplace.Endpoints
             {
                 return TypedResults.NotFound($"Could not find wishlist with provided Id:{id}");
             }
-
-            if (user.UserId()==entity.UserId || user.IsInRole("Admin"))
+            Console.WriteLine(user.UserId());
+            if (user.UserId()==entity.UserId)
             {
                 var result = await repository.Delete(id);
                 return TypedResults.Ok(createWishlistItemDTO(result));
