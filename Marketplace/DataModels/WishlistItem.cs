@@ -10,8 +10,9 @@ namespace Marketplace.DataModels
         [ForeignKey(nameof(Product)), Column("fk_product_id")]
         public int ProductId { get; set; }
         public Product Product { get; set; }
-        [ForeignKey(nameof(Wishlist)), Column("fk_wishlist_id")]
-        public int WishlistId { get; set; }
-        public Wishlist Wishlist { get; set; }
+
+        [ForeignKey(nameof(ApplicationUser)), Column("fk_user_id")]
+        public string UserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }
