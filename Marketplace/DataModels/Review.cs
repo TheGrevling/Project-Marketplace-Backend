@@ -11,7 +11,7 @@ namespace Marketplace.DataModels
         public int ProductId { get; set; }
         public Product Product { get; set; }
         [ForeignKey(nameof(ApplicationUser)), Column("user_id")]
-        public string UserId { get; set; }
+        public string UserName { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         [Column("rating")]
         public int Rating { get; set; }
