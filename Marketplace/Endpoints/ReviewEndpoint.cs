@@ -15,6 +15,7 @@ namespace Marketplace.Endpoints
             var reviews = app.MapGroup("reviews");
             reviews.MapGet("/", Get);
             reviews.MapGet("/{id}", GetById);
+            reviews.MapGet("/{productId}", GetAllForProduct);
             reviews.MapPost("/{id}", Post);
             reviews.MapPut("/{id}", Update);
             reviews.MapDelete("/{id}", Delete);
@@ -39,6 +40,21 @@ namespace Marketplace.Endpoints
                 return Results.BadRequest("Can't find review with that id");
             }
             return TypedResults.Ok(review);
+        }
+
+        private static async Task<IResult> GetAllForProduct(IRepository<Review> repository, int productId)
+        {
+            var reviews = await repository.Get();
+            List<Review> results = new List<Review>();
+            foreach (var review in reviews)
+            {
+                if (review.ProductId == productId)
+                {
+                    results.Add(review);
+                }
+                continue;
+            }
+            return TypedResults.Ok(results);
         }
 
         private static async Task<IResult> Post(IRepository<Review> repository, int productId, ReviewPost review, ClaimsPrincipal user)
