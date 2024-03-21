@@ -16,11 +16,5 @@ namespace Marketplace.Helpers
             Claim? claim = user.FindFirst(ClaimTypes.Email);
             return claim?.Value;
         }
-        
-        public static string? UserName(this ClaimsPrincipal user)
-        {
-            Claim? claim = user.FindFirst(ClaimTypes.Name);
-            return claim?.Value;
-        }
     }
 }
