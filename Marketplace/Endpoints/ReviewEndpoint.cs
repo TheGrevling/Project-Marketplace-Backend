@@ -58,7 +58,6 @@ namespace Marketplace.Endpoints
             var entity = new Review()
             {
                 Id = reviews.Count() + 1,
-                UserId = user.UserId(),
                 ProductId = productId,
                 Rating = review.Rating,
                 Title = review.Title,
