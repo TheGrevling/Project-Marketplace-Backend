@@ -14,7 +14,7 @@ namespace Marketplace.Endpoints
         {
             var reviews = app.MapGroup("reviews");
             reviews.MapGet("/", Get);
-            reviews.MapGet("/{id}", GetAllForProduct);
+            reviews.MapGet("/all", GetAllForProduct);
             reviews.MapPost("/{id}", Post);
             reviews.MapPut("/{id}", Update);
             reviews.MapDelete("/{id}", Delete);
