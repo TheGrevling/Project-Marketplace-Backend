@@ -68,7 +68,6 @@ namespace Marketplace.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<OrderHistory>().Navigation(x => x.Items).AutoInclude();
             modelBuilder.Entity<OrderItem>().Navigation(x=>x.Product).AutoInclude();
-            modelBuilder.Entity<Wishlist>().Navigation(x => x.WishlistItems).AutoInclude();
             modelBuilder.Entity<WishlistItem>().Navigation(x => x.Product).AutoInclude();
 
             SeedProducts(modelBuilder);
@@ -161,7 +160,6 @@ namespace Marketplace.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<OrderHistory> OrderHistory { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<Wishlist> Wishlist { get; set; }
         public DbSet<WishlistItem> WishlistItems { get; set;}
     }
 }

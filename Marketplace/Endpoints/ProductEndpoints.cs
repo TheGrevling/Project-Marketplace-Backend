@@ -110,7 +110,7 @@ namespace Marketplace.Endpoints
             {
                 var entity = new Product()
                 {
-                    Id = products.Count() + 1,
+                    Id = products.Any() ? products.Max(w => w.Id) + 1 : 1,
                     Name = product.Name,
                     Producer = product.Producer,
                     Price = product.Price,

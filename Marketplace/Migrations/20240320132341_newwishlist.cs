@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Marketplace.Migrations
 {
     /// <inheritdoc />
-    public partial class updatecategory : Migration
+    public partial class newwishlist : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -226,11 +226,18 @@ namespace Marketplace.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     fk_product_id = table.Column<int>(type: "integer", nullable: false),
-                    fk_wishlist_id = table.Column<int>(type: "integer", nullable: false)
+                    fk_user_id = table.Column<string>(type: "text", nullable: false),
+                    WishlistId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WishlistItem", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_WishlistItem_AspNetUsers_fk_user_id",
+                        column: x => x.fk_user_id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_WishlistItem_Product_fk_product_id",
                         column: x => x.fk_product_id,
@@ -238,11 +245,10 @@ namespace Marketplace.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_WishlistItem_Wishlist_fk_wishlist_id",
-                        column: x => x.fk_wishlist_id,
+                        name: "FK_WishlistItem_Wishlist_WishlistId",
+                        column: x => x.WishlistId,
                         principalTable: "Wishlist",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "id");
                 });
 
             migrationBuilder.InsertData(
@@ -250,26 +256,26 @@ namespace Marketplace.Migrations
                 columns: new[] { "id", "category", "description", "imageURL", "name", "price", "producer" },
                 values: new object[,]
                 {
-                    { 1, "Boardgame", "Description of boardgame", "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg", "Galactic Manor", 971.0, "Empire Studios" },
-                    { 2, "Boardgame", "Description of boardgame", "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg", "Ancient Manor", 949.0, "Empire Creations" },
-                    { 3, "Boardgame", "Description of boardgame", "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg", "Kingdoms Battles", 650.0, "Mythical Games" },
-                    { 4, "Boardgame", "Description of boardgame", "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg", "Epic Battles", 377.0, "Mystic Games" },
-                    { 5, "Boardgame", "Description of boardgame", "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg", "Kingdoms Battles", 545.0, "Mystic Games" },
-                    { 6, "Cardgame", "Description of cardgame", "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg", "Ancient Battles", 323.0, "Empire Productions" },
-                    { 7, "Cardgame", "Description of cardgame", "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg", "Galactic Manor", 733.0, "Mystic Productions" },
-                    { 8, "Cardgame", "Description of cardgame", "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg", "Mystic Manor", 471.0, "Galactic Studios" },
-                    { 9, "Cardgame", "Description of cardgame", "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg", "Kingdoms Battles", 125.0, "Legendary Co." },
-                    { 10, "Cardgame", "Description of cardgame", "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg", "Adventure Quest", 885.0, "Galactic Co." },
-                    { 11, "Roleplay", "Description of roleplay", "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg", "Kingdoms Battles", 759.0, "Galactic Creations" },
-                    { 12, "Roleplay", "Description of roleplay", "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg", "Adventure Battles", 450.0, "Mythical Games" },
-                    { 13, "Roleplay", "Description of roleplay", "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg", "Kingdoms Magic", 402.0, "Empire Creations" },
-                    { 14, "Roleplay", "Description of roleplay", "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg", "Ancient Battles", 720.0, "Galactic Games" },
-                    { 15, "Roleplay", "Description of roleplay", "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg", "Kingdoms Manor", 724.0, "Mythical Co." },
-                    { 16, "Puzzlegame", "Description of puzzlegame", "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg", "Kingdoms Conquest", 359.0, "Legendary Creations" },
-                    { 17, "Puzzlegame", "Description of puzzlegame", "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg", "Galactic Magic", 727.0, "Mythical Productions" },
-                    { 18, "Puzzlegame", "Description of puzzlegame", "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg", "Ancient Conquest", 156.0, "Galactic Entertainment" },
-                    { 19, "Puzzlegame", "Description of puzzlegame", "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg", "Epic Conquest", 806.0, "Empire Productions" },
-                    { 20, "Puzzlegame", "Description of puzzlegame", "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg", "Ancient Conquest", 839.0, "Empire Studios" }
+                    { 1, "Boardgame", "Description of boardgame", "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg", "Epic Magic", 539.0, "Legendary Studios" },
+                    { 2, "Boardgame", "Description of boardgame", "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg", "Kingdoms Chronicles", 395.0, "Empire Productions" },
+                    { 3, "Boardgame", "Description of boardgame", "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg", "Ancient Quest", 612.0, "Empire Creations" },
+                    { 4, "Boardgame", "Description of boardgame", "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg", "Galactic Manor", 875.0, "Legendary Creations" },
+                    { 5, "Boardgame", "Description of boardgame", "https://gamezone.no/Media/Cache/Images/4/7/WEB_Image_Catan_Grunnspill_(Norsk)_Brettspill__catan-grunnspill820591365_plid_44797.jpeg", "Kingdoms Manor", 493.0, "Mythical Games" },
+                    { 6, "Cardgame", "Description of cardgame", "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg", "Epic Manor", 757.0, "Mythical Studios" },
+                    { 7, "Cardgame", "Description of cardgame", "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg", "Kingdoms Quest", 432.0, "Legendary Games" },
+                    { 8, "Cardgame", "Description of cardgame", "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg", "Epic Chronicles", 121.0, "Empire Entertainment" },
+                    { 9, "Cardgame", "Description of cardgame", "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg", "Adventure Quest", 235.0, "Mystic Productions" },
+                    { 10, "Cardgame", "Description of cardgame", "https://gamezone.no/Media/Cache/Images/8/0/WEB_Image_Magic_Murder_Karlov_Manor_Play_Display__mtgmkm_en_bstrdspbx_drft_01_011402134032_plid_87420.jpeg", "Ancient Chronicles", 439.0, "Mystic Studios" },
+                    { 11, "Roleplay", "Description of roleplay", "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg", "Adventure Manor", 440.0, "Mystic Productions" },
+                    { 12, "Roleplay", "Description of roleplay", "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg", "Mystic Conquest", 404.0, "Empire Creations" },
+                    { 13, "Roleplay", "Description of roleplay", "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg", "Galactic Quest", 952.0, "Mythical Games" },
+                    { 14, "Roleplay", "Description of roleplay", "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg", "Kingdoms Magic", 235.0, "Legendary Creations" },
+                    { 15, "Roleplay", "Description of roleplay", "https://gamezone.no/Media/Cache/Images/7/0/WEB_Image_D_D_Essentials_Kit_Dungeons___Dragons__dnd-essentials-kit547970669.jpeg", "Kingdoms Battles", 945.0, "Mystic Studios" },
+                    { 16, "Puzzlegame", "Description of puzzlegame", "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg", "Galactic Conquest", 834.0, "Mystic Games" },
+                    { 17, "Puzzlegame", "Description of puzzlegame", "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg", "Epic Quest", 857.0, "Mythical Entertainment" },
+                    { 18, "Puzzlegame", "Description of puzzlegame", "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg", "Ancient Quest", 215.0, "Mystic Studios" },
+                    { 19, "Puzzlegame", "Description of puzzlegame", "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg", "Adventure Magic", 805.0, "Mythical Entertainment" },
+                    { 20, "Puzzlegame", "Description of puzzlegame", "https://gamezone.no/Media/Cache/Images/6/5/WEB_Image_Bicycles_in_Amsterdam_1000_biter_Puslesp_bikes-in-amsterdam-577910530.jpeg", "Kingdoms Magic", 213.0, "Empire Entertainment" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -324,14 +330,19 @@ namespace Marketplace.Migrations
                 column: "fk_user_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_WishlistItem_WishlistId",
+                table: "WishlistItem",
+                column: "WishlistId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_WishlistItem_fk_product_id",
                 table: "WishlistItem",
                 column: "fk_product_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WishlistItem_fk_wishlist_id",
+                name: "IX_WishlistItem_fk_user_id",
                 table: "WishlistItem",
-                column: "fk_wishlist_id");
+                column: "fk_user_id");
         }
 
         /// <inheritdoc />

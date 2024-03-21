@@ -1,5 +1,6 @@
 ﻿using Marketplace.DataModels;
 using Marketplace.DataTransfers.Requests;
+using Marketplace.Helpers;
 using Marketplace.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -13,7 +14,7 @@ namespace Marketplace.Endpoints
         {
             var reviews = app.MapGroup("reviews");
             reviews.MapGet("/", Get);
-            reviews.MapGet("/{id}", GetById);
+            reviews.MapGet("/all", GetAllForProduct);
             reviews.MapPost("/{id}", Post);
             reviews.MapPut("/{id}", Update);
             reviews.MapDelete("/{id}", Delete);
@@ -30,29 +31,34 @@ namespace Marketplace.Endpoints
             return TypedResults.Ok(results);
         }
 
-        private static async Task<IResult> GetById(IRepository<Review> repository, int id)
-        {
-            var review = await repository.GetById(id);
-            if (review == null)
-            {
-                return Results.BadRequest("Can't find review with that id");
-            }
-            return TypedResults.Ok(review);
-        }
-
-        private static async Task<IResult> Post(IRepository<Review> repository, string userId, int productId, ReviewPost review, ClaimsPrincipal user)
+        private static async Task<IResult> GetAllForProduct(IRepository<Review> repository, int productId)
         {
             var reviews = await repository.Get();
-
-            if (reviews.Any(x => x.Title.Equals(review.Title, StringComparison.OrdinalIgnoreCase)))
+            List<Review> results = new List<Review>();
+            foreach (var review in reviews)
             {
-                return Results.BadRequest("Review with this title already exists");
+                if (review.ProductId == productId)
+                {
+                    results.Add(review);
+                }
+                continue;
             }
+            return TypedResults.Ok(results);
+        }
+
+        private static async Task<IResult> Post(IRepository<Review> repository, int productId, ReviewPost review, ClaimsPrincipal user)
+        {
+            if (string.IsNullOrEmpty(user.UserId()))
+            {
+                return TypedResults.Unauthorized();
+            }
+
+            var reviews = await repository.Get();
             
             var entity = new Review()
             {
                 Id = reviews.Count() + 1,
-                UserId = userId,
+                UserId = user.UserId(),
                 ProductId = productId,
                 Rating = review.Rating,
                 Title = review.Title,
