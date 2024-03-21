@@ -105,7 +105,7 @@ namespace Marketplace.Controllers
                 Id = userInDb.Id,
                 Username = userInDb.UserName,
                 Email = userInDb.Email,
-                Token = accessToken,
+                AccessToken = accessToken,
             });
         }
         [HttpGet]
